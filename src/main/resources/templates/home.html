@@ -14,10 +14,83 @@
 <body>
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#">Events</a>
+    <a class="navbar-brand" href="/">Home</a>
 </nav>
 
 <main role="main" class="container">
+
+    <div class="container">
+        <div class="row">
+            <form action="#" th:action="@{/eventsform}" th:object="${command}" method="post">
+                <div class="form-group">
+                    <label for="owner">Owner</label>
+                    <input class="form-control" type="text" id="owner" th:field="*{owner}"/>
+                </div>
+                <div class="form-group">
+                    <label for="repo">Repo</label>
+                    <input class="form-control" type="text" id="repo" th:field="*{repo}"/>
+                </div>
+                <div class="form-group">
+
+                    <p><strong>Select Event Types:</strong>
+                        <select class="form-control" id="multiple-events" th:field="*{eventTypesSelected}" multiple="multiple">
+
+                            <option th:each="eventType: ${eventTypes}"
+                                    th:value="${eventType}" th:text="${eventType}">
+                        </select>
+                </div>
+
+
+                <button th:type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+
+
+    </div>
+
+
+
+    <div th:if="${isBeforeSubmit}"/>
+    <div th:unless="${isBeforeSubmit}">
+        <hr/>
+        <div th:if="${#lists.isEmpty(eventList)}">
+            <h1>No Event Found</h1>
+        </div>
+        <!-- ELSE -->
+        <div th:unless="${#lists.isEmpty(eventList)}">
+            <div class="container">
+                <div class="row">
+                    <div class="row">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Event Type</th>
+                                <th scope="col">Actor Login Name</th>
+                                <th scope="col">Actor Display Name</th>
+                                <th scope="col">Created At</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="event : ${eventList}">
+                                <td><p th:text="${event.type}"></p></td>
+                                <td><p th:text="${event.actor.login}"></p></td>
+                                <td><p th:text="${event.actor.display_login}"></p></td>
+                                <td><p th:text="${event.created_at}"></p></td>
+                            </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
 
 
 
